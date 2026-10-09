@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Альтернативне розуміння стратегії</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+html{-webkit-text-size-adjust:100%}
+body{margin:0}
+img{max-width:100%}
+
+/* Survey page: eyebrow → baseline → contrast table → schools + comments → traditions → limits → synthesis → sources */
+:root{
+  --bg:#F7F5F0; --surface:#FFFFFF; --surface-2:#EDE7DC;
+  --fg:#1C2B3A; --muted:#55616B; --line:#DED8CC;
+  --accent:#A84A1A; --teal:#2E6F7E;
+  --zone-go:#E2EDEF; --zone-hold:#F1EDE4; --zone-stop:#F6E5DB;
+  --serif:'Source Serif 4', Georgia, serif;
+  --sans:'IBM Plex Sans', system-ui, -apple-system, Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#121C26; --surface:#1C2B3A; --surface-2:#24354A;
+  --fg:#F0EDE6; --muted:#9FAEBB; --line:#2F4256;
+  --accent:#E8995F; --teal:#78BAC7;
+  --zone-go:#1B3A43; --zone-hold:#2A3444; --zone-stop:#3B2619;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#121C26; --surface:#1C2B3A; --surface-2:#24354A;
+  --fg:#F0EDE6; --muted:#9FAEBB; --line:#2F4256;
+  --accent:#E8995F; --teal:#78BAC7;
+  --zone-go:#1B3A43; --zone-hold:#2A3444; --zone-stop:#3B2619;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg); color:var(--fg); font-family:var(--sans); line-height:1.5;
+  padding-inline:20px; padding-block:40px 64px}
+.wrap{max-width:860px; margin:0 auto; display:flex; flex-direction:column; gap:42px}
+.wrap>*{min-width:0; max-width:100%}
+.eyebrow{font-size:13px; font-weight:600; letter-spacing:.11em; text-transform:uppercase; color:var(--accent); margin:0}
+h1{font-family:var(--serif); font-size:clamp(33px,6.6vw,47px); font-weight:600; line-height:1.1;
+  margin:10px 0 0; text-wrap:balance}
+.lead{font-family:var(--serif); font-size:clamp(19px,3.8vw,24px); line-height:1.35; margin:14px 0 0; color:var(--muted)}
+h2{font-size:13px; font-weight:600; letter-spacing:.11em; text-transform:uppercase;
+  color:var(--muted); margin:0 0 14px; padding-bottom:8px; border-bottom:1px solid var(--line)}
+h3{font-size:17px; font-weight:600; margin:0}
+p{margin:0}
+.intro{font-size:16px; line-height:1.55; margin-bottom:16px}
+.case{background:var(--surface-2); border-radius:12px; padding:22px;
+  display:flex; flex-direction:column; gap:11px}
+.case p{font-size:15.5px; line-height:1.55; color:var(--muted)}
+.case .pull{font-family:var(--serif); font-size:clamp(18px,3.4vw,21px); line-height:1.35; color:var(--fg)}
+
+.tblwrap{overflow-x:auto; max-width:100%; border:1px solid var(--line); border-radius:12px; background:var(--surface)}
+table{border-collapse:collapse; width:100%; font-size:14.5px}
+.t-contrast{min-width:640px}
+.t-trad{min-width:460px}
+.t-src{min-width:560px}
+thead th{font-size:11.5px; font-weight:600; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); text-align:left; padding:14px 15px 10px; border-bottom:1px solid var(--line);
+  white-space:nowrap}
+tbody td{padding:13px 15px; border-bottom:1px solid var(--line); vertical-align:top; line-height:1.45}
+tbody tr:last-child td{border-bottom:none}
+td.k{font-weight:600; width:23%}
+td.k small{display:block; font-weight:400; font-size:12.5px; color:var(--muted); margin-top:3px}
+td.old{color:var(--muted); width:36%}
+td.new{background:var(--zone-go)}
+thead th.hnew{background:var(--zone-go); color:var(--teal)}
+.t-trad td.k{width:20%; white-space:nowrap}
+
+.schools{display:flex; flex-direction:column; gap:12px}
+.sch{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:19px 20px;
+  display:grid; grid-template-columns:30px 1fr; gap:0 13px; align-items:start}
+.sch .n{grid-row:1 / span 3; font-family:var(--serif); font-size:23px; font-weight:700;
+  color:var(--accent); line-height:1.15}
+.sch .nm{font-family:var(--serif); font-size:19px; font-weight:600; line-height:1.25; min-width:0}
+.sch .src{font-size:13px; color:var(--muted); line-height:1.45; margin-top:5px; min-width:0}
+.comment{margin-top:12px; min-width:0; background:var(--zone-go); border-radius:9px; padding:14px 15px;
+  display:flex; flex-direction:column; gap:6px}
+.comment .tag{font-size:11px; font-weight:600; letter-spacing:.09em; text-transform:uppercase; color:var(--teal)}
+.comment p{font-size:14.5px; line-height:1.5}
+
+ol{margin:0; padding-left:22px; display:flex; flex-direction:column; gap:10px; font-size:16px}
+ol li::marker{color:var(--accent); font-weight:700}
+.two{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:14px}
+.note{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:20px;
+  display:flex; flex-direction:column; gap:8px; min-width:0}
+.note .tag{font-size:12px; font-weight:600; letter-spacing:.08em; text-transform:uppercase}
+.note p{font-size:15px; color:var(--muted); line-height:1.5}
+.sees .tag{color:var(--teal)} .blind .tag{color:var(--accent)}
+.forbo{border-left:4px solid var(--accent); background:var(--surface-2); border-radius:0 12px 12px 0;
+  padding:20px 22px; display:flex; flex-direction:column; gap:9px}
+.forbo .tag{font-size:12px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--accent)}
+.forbo p{font-size:16px; line-height:1.5}
+footer{font-size:13px; color:var(--muted); line-height:1.5; border-top:1px solid var(--line); padding-top:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">Модуль I · Блок 1 · Оглядова довідка</p>
+  <h1>Альтернативне розуміння стратегії</h1>
+  <p class="lead">Вісім заперечень класичній школі — з джерелами і з тим, що з кожного випливає на практиці</p>
+</header>
+
+<section>
+  <h2>Від чого відштовхуємось</h2>
+  <div class="case">
+    <p>Класичне розуміння стратегії склалося в 1960–1980-х. Альфред Чендлер (1962) визначив її як визначення довгострокових цілей і розподіл ресурсів під них; Ігор Ансофф (1965) перетворив це на формальну процедуру планування; Майкл Портер (1980) додав позиціювання в галузі.</p>
+    <p>Під цим лежать три припущення: майбутнє достатньо передбачуване, щоб його планувати; стратегію формулюють нагорі, а внизу впроваджують; організація контролює достатньо ресурсів, щоб нав'язати свій задум середовищу.</p>
+    <p class="pull">Класична школа не помилкова. Вона просто описує становище, в якому бізнес-об'єднання не перебуває.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Вісім заперечень, стисло</h2>
+  <div class="tblwrap">
+    <table class="t-contrast">
+      <thead>
+        <tr>
+          <th>Школа</th>
+          <th>Класична теза</th>
+          <th class="hnew">Альтернативна теза</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">Емерджентна стратегія<small>Мінцберг</small></td>
+          <td class="old">Стратегію формулюють угорі, далі її впроваджують</td>
+          <td class="new">Стратегія — патерн у потоці рішень; упізнають її переважно заднім числом</td>
+        </tr>
+        <tr>
+          <td class="k">Логічний інкременталізм<small>Квінн, Ліндблом</small></td>
+          <td class="old">Рішення виводять із цілей дедуктивно</td>
+          <td class="new">Рухаються малими кроками в названому напрямі, а цілі уточнюють по ходу</td>
+        </tr>
+        <tr>
+          <td class="k">Потенціал ситуації<small>Сунь-цзи, Жульєн</small></td>
+          <td class="old">Стратег будує план і накидає його на дійсність</td>
+          <td class="new">Стратег знаходить силу, що вже накопичилась, і осідлує її</td>
+        </tr>
+        <tr>
+          <td class="k">Задум замість інструкції<small>Мольтке</small></td>
+          <td class="old">План описує послідовність дій</td>
+          <td class="new">План описує намір; дії обирає той, хто на місці</td>
+        </tr>
+        <tr>
+          <td class="k">Ядро проти поганої стратегії<small>Румельт</small></td>
+          <td class="old">Стратегія — це цілі, бачення і цінності</td>
+          <td class="new">Стратегія — діагноз, напрямна політика і узгоджені дії</td>
+        </tr>
+        <tr>
+          <td class="k">Вибір, чого не робити<small>Портер, 1996</small></td>
+          <td class="old">Робити те саме, що всі, тільки краще</td>
+          <td class="new">Операційна досконалість — не стратегія; стратегія — свідома відмова</td>
+        </tr>
+        <tr>
+          <td class="k">Асиметрія<small>Арреґін-Тофт</small></td>
+          <td class="old">Виграє той, у кого більше ресурсу</td>
+          <td class="new">Слабший виграє помітно частіше, коли застосовує протилежний підхід</td>
+        </tr>
+        <tr>
+          <td class="k">Ефектуація<small>Сарасваті</small></td>
+          <td class="old">Від мети до потрібних засобів</td>
+          <td class="new">Від наявних засобів до можливого; межа — прийнятна втрата, а не очікувана віддача</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>Кожна окремо: джерело і що я про це думаю</h2>
+  <div class="schools">
+
+    <div class="sch">
+      <span class="n">1</span>
+      <span class="nm">Емерджентна стратегія</span>
+      <span class="src">Henry Mintzberg, «Patterns in Strategy Formation», <em>Management Science</em>, 1978 · Mintzberg &amp; Waters, «Of Strategies, Deliberate and Emergent», <em>Strategic Management Journal</em>, 1985 · «The Rise and Fall of Strategic Planning», 1994 · Mintzberg, Ahlstrand, Lampel, «Strategy Safari», 1998 — десять шкіл стратегії</span>
+      <div class="comment">
+        <span class="tag">Мій коментар</span>
+        <p>Найцінніше в Мінцберга не сама емерджентність, а формула: реалізована стратегія дорівнює задуманій мінус нереалізована плюс емерджентна. Вона дає правлінню законне право сказати «ми робимо не те, що написали торік», не оголошуючи це провалом. Для об'єднання це важить більше за будь-який інструмент: без такої формули стратегію або виконують формально, або ховають у шухляду до наступного донора.</p>
+      </div>
+    </div>
+
+    <div class="sch">
+      <span class="n">2</span>
+      <span class="nm">Логічний інкременталізм</span>
+      <span class="src">James Brian Quinn, «Strategies for Change: Logical Incrementalism», 1980 · попередник — Charles Lindblom, «The Science of “Muddling Through”», <em>Public Administration Review</em>, 1959</span>
+      <div class="comment">
+        <span class="tag">Мій коментар</span>
+        <p>Найлегша зі шкіл для зловживання. Різниця між інкременталізмом і звичайним дрейфом одна: у Квінна малі кроки роблять у заздалегідь названому напрямі й регулярно звіряють із ним. Немає напряму — це не інкременталізм, це реактивність. Перевірка проста: чи можете ви назвати, від чого саме відмовилися за останній рік. Якщо ні від чого — ви дрейфуєте.</p>
+      </div>
+    </div>
+
+    <div class="sch">
+      <span class="n">3</span>
+      <span class="nm">Потенціал ситуації (ши, 勢)</span>
+      <span class="src">Сунь-цзи, «Мистецтво війни», бл. V ст. до н. е. · François Jullien, «La propension des choses», 1992 · «Traité de l'efficacité», 1996 (укр. і англ. переклади — «Трактат про ефективність»)</span>
+      <div class="comment">
+        <span class="tag">Мій коментар</span>
+        <p>Жульєн корисний тим, що знімає з цього наліт «східної мудрості» і показує іншу теорію дії. Європейська модель будує ідеальну форму і накидає її на світ; китайська читає схильність ситуації і дає їй дозріти. Для об'єднання друга майже завжди дешевша: ресурсу нав'язувати у вас немає, зате є швидкість помітити хвилю раніше за інших. Образ, який варто тримати в голові: вода в ставку нічого не робить, та сама вода вище за течією обертає млин.</p>
+      </div>
+    </div>
+
+    <div class="sch">
+      <span class="n">4</span>
+      <span class="nm">Задум замість інструкції</span>
+      <span class="src">Helmuth von Moltke der Ältere, «Über Strategie», 1871 — «жоден план операцій не сягає з певністю далі за перше зіткнення з головними силами противника». Практика Auftragstaktik — наказ на задум, а не на дію</span>
+      <div class="comment">
+        <span class="tag">Мій коментар</span>
+        <p>Найпрактичніший пункт усього списку і єдиний, який можна впровадити наступного вівторка. Висновок Мольтке був не «не плануйте», а «ставте задум, а не перелік дій». Подивіться протокол останнього правління: якщо там список доручень, стратегія у вас помирає між засіданнями — доручення вичерпуються за тиждень, а задум не вичерпується.</p>
+      </div>
+    </div>
+
+    <div class="sch">
+      <span class="n">5</span>
+      <span class="nm">Ядро і погана стратегія</span>
+      <span class="src">Richard Rumelt, «Good Strategy / Bad Strategy», 2011. Ядро: діагноз → напрямна політика → узгоджені дії. Чотири ознаки поганої стратегії: пустослів'я, небажання дивитися на виклик, плутання цілей зі стратегією, погані стратегічні цілі</span>
+      <div class="comment">
+        <span class="tag">Мій коментар</span>
+        <p>Румельт — протиотрута від документів, написаних під донора. Його тест нещадний: немає діагнозу, тобто чесного опису того, що саме заважає, — далі можна не читати. Більшість стратегій об'єднань провалюють саме цей тест, і провалюють не від ліні. Діагноз незручно писати при членах: він майже завжди звучить як «ми тримаємося на одній людині» або «половині членів ми не потрібні».</p>
+      </div>
+    </div>
+
+    <div class="sch">
+      <span class="n">6</span>
+      <span class="nm">Стратегія як вибір, чого не робити</span>
+      <span class="src">Michael Porter, «What Is Strategy?», <em>Harvard Business Review</em>, листопад–грудень 1996 · пор. Mintzberg, «Five Ps for Strategy», <em>California Management Review</em>, 1987 — план, прийом, патерн, позиція, перспектива</span>
+      <div class="comment">
+        <span class="tag">Мій коментар</span>
+        <p>Портер тут не опонент класичної школи, а її власне самозаперечення — він цю школу й будував. «Сутність стратегії — вибір того, чого не робити» досі найкоротша відома мені перевірка документа. Для об'єднання вона болюча: кожен напрям має свого прихильника в правлінні, і стоп-лист завжди коштує політично. Саме тому його майже ніколи не пишуть — а без нього решта документа нічого не вартує.</p>
+      </div>
+    </div>
+
+    <div class="sch">
+      <span class="n">7</span>
+      <span class="nm">Асиметрія: чому виграє слабший</span>
+      <span class="src">Ivan Arreguín-Toft, «How the Weak Win Wars: A Theory of Asymmetric Conflict», <em>International Security</em>, 2001; книжка — Cambridge University Press, 2005. Теза стратегічної взаємодії: результат визначає не співвідношення сил, а збіг чи розбіжність підходів сторін</span>
+      <div class="comment">
+        <span class="tag">Мій коментар</span>
+        <p>Головне тут не «слабкий іноді виграє», а механізм: слабший виграє тоді, коли діє протилежним способом, і програє, коли дзеркалить сильного. Об'єднання, яке змагається з апаратом в обсязі паперу, дзеркалить. Це емпірично програшна стратегія, а не просто виснажлива — і єдиний юрист, якого ви на це витрачаєте, і є ціна помилки.</p>
+      </div>
+    </div>
+
+    <div class="sch">
+      <span class="n">8</span>
+      <span class="nm">Ефектуація</span>
+      <span class="src">Saras Sarasvathy, «Causation and Effectuation: Toward a Theoretical Shift from Economic Inevitability to Entrepreneurial Contingency», <em>Academy of Management Review</em>, 2001. Відправна точка — хто я, що я знаю, кого я знаю; критерій — прийнятна втрата</span>
+      <div class="comment">
+        <span class="tag">Мій коментар</span>
+        <p>Ефектуація пояснює, чому порядок «спершу стратегія, потім ресурси» не працює в організації з трьох людей. Логіка зворотна: що в нас уже є і що з цього можна зробити вже зараз. Друга її ідея для об'єднання ще корисніша: ви не рахуєте, скільки заробите, ви вирішуєте, скільки готові втратити. Це єдиний спосіб запускати нові напрями, не ставлячи на кін організацію.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section>
+  <h2>Два режими, а не правильний і неправильний</h2>
+  <p class="intro">Поділ на європейську і далекосхідну традицію зручний тим, що це не оцінка, а діагностика. Європейський режим працює, коли ви контролюєте ресурс. Далекосхідний — коли ні.</p>
+  <div class="tblwrap">
+    <table class="t-trad">
+      <thead>
+        <tr><th></th><th>Європейська</th><th class="hnew">Далекосхідна</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">Метафора</td><td class="old">Битва за вирішальний пункт</td><td class="new">Вода, що знаходить шлях</td></tr>
+        <tr><td class="k">Питання</td><td class="old">Яка мета і який план?</td><td class="new">Де накопичується потенціал?</td></tr>
+        <tr><td class="k">Перемога</td><td class="old">Нав'язати свою волю</td><td class="new">Перемогти без бою</td></tr>
+        <tr><td class="k">Автори</td><td class="old">Клаузевіц, Мольтке</td><td class="new">Сунь-цзи, Лао-цзи</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="comment" style="margin-top:16px">
+    <span class="tag">Мій коментар</span>
+    <p>Питання не в тому, яка традиція краща, а в тому, яку ваша організація використовує за звичкою. Більшість бізнес-об'єднань пишуть стратегію в європейській логіці — цілі, етапи, показники — а живуть у далекосхідній: чекають, за що зачепитися, і реагують на те, що накотилось. Розрив між написаним і прожитим і є головна причина, чому стратегічні документи не читають.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Де альтернативна школа сама бреше</h2>
+  <div class="two">
+    <div class="note blind">
+      <span class="tag">Зручне виправдання</span>
+      <p>«Ми працюємо емерджентно» найчастіше означає «ми реагуємо». Сам Мінцберг наполягав, що чисто емерджентна стратегія така сама рідкість, як чисто задумана, і що реальні організації живуть між полюсами, а не на одному з них.</p>
+    </div>
+    <div class="note blind">
+      <span class="tag">Хиткий фундамент кейсу</span>
+      <p>Honda, на якій тримається половина аргументації про емерджентність, сама є предметом суперечки. Версія BCG (продумана атака знизу) і версія Паскаля (розвернулись за фактом) зіткнулись у дискусії <em>California Management Review</em> 1996 року за участі Ґулда, Мінцберга, Паскаля і Румельта — згоди не дійшли. Обидві версії реконструйовані заднім числом, і це варто казати вголос, переказуючи кейс.</p>
+    </div>
+    <div class="note blind">
+      <span class="tag">Сильна в поясненні, слабка в передбаченні</span>
+      <p>Альтернативна школа добре каже, чому у вас вийшло саме так, і погано — що робити в понеділок. Саме тому матриці, сітки й інші інструменти класичної школи нікуди не діваються: вони дають форму рішенню, яке альтернативна школа лише дозволяє переглянути.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Що з цього брати</h2>
+  <ol>
+    <li><strong>Пишіть задум, а не список доручень.</strong> Перевірка: чи зможе директор діяти, якщо перший шлях закрився (Мольтке).</li>
+    <li><strong>Починайте документ із діагнозу</strong>, а не з місії. Немає діагнозу — немає стратегії (Румельт).</li>
+    <li><strong>Раз на квартал питайте не «чи виконали план», а «який патерн у нас складається»</strong> — і чи ми його хочемо (Мінцберг).</li>
+    <li><strong>Спершу шукайте, що вже накочується</strong>, і лише потім вигадуйте власну хвилю (Сунь-цзи, Жульєн).</li>
+    <li><strong>Рахуйте прийнятну втрату, а не очікувану віддачу</strong>, коли запускаєте новий напрям (Сарасваті).</li>
+    <li><strong>Не дзеркальте сильного.</strong> Якщо ваша відповідь апарату — більше паперу, ви вже програли (Арреґін-Тофт).</li>
+    <li><strong>Запишіть, чого ви не робите.</strong> Документ без цього списку — перелік побажань (Портер).</li>
+  </ol>
+</section>
+
+<div class="forbo">
+  <span class="tag">Одним абзацом</span>
+  <p>Альтернативне розуміння не скасовує планування, воно змінює те, що саме планують. Класична школа планує дії. Альтернативна планує спроможність діяти, коли дії доведеться змінити: задум замість інструкції, діагноз замість цілей, позицію замість обсягу, прийнятну втрату замість обіцяної віддачі. Для організації з трьох людей і одним юристом це не філософія, а питання виживання.</p>
+</div>
+
+<section>
+  <h2>Джерела</h2>
+  <div class="tblwrap">
+    <table class="t-src">
+      <thead><tr><th>Автор</th><th>Праця</th><th>Рік</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Сунь-цзи</td><td>Мистецтво війни (孫子兵法)</td><td>бл. V ст. до н. е.</td></tr>
+        <tr><td class="k">Helmuth von Moltke</td><td>Über Strategie (у складі Moltkes Militärische Werke)</td><td>1871</td></tr>
+        <tr><td class="k">Charles Lindblom</td><td>The Science of “Muddling Through”, <em>Public Administration Review</em></td><td>1959</td></tr>
+        <tr><td class="k">Alfred D. Chandler</td><td>Strategy and Structure: Chapters in the History of the American Industrial Enterprise</td><td>1962</td></tr>
+        <tr><td class="k">H. Igor Ansoff</td><td>Corporate Strategy</td><td>1965</td></tr>
+        <tr><td class="k">Henry Mintzberg</td><td>Patterns in Strategy Formation, <em>Management Science</em></td><td>1978</td></tr>
+        <tr><td class="k">James Brian Quinn</td><td>Strategies for Change: Logical Incrementalism</td><td>1980</td></tr>
+        <tr><td class="k">Richard Pascale</td><td>Perspectives on Strategy: The Real Story Behind Honda's Success, <em>California Management Review</em></td><td>1984</td></tr>
+        <tr><td class="k">Mintzberg &amp; Waters</td><td>Of Strategies, Deliberate and Emergent, <em>Strategic Management Journal</em></td><td>1985</td></tr>
+        <tr><td class="k">Henry Mintzberg</td><td>The Strategy Concept I: Five Ps for Strategy, <em>California Management Review</em></td><td>1987</td></tr>
+        <tr><td class="k">François Jullien</td><td>La propension des choses · Traité de l'efficacité</td><td>1992 · 1996</td></tr>
+        <tr><td class="k">Henry Mintzberg</td><td>The Rise and Fall of Strategic Planning</td><td>1994</td></tr>
+        <tr><td class="k">Goold, Mintzberg, Pascale, Rumelt</td><td>The Honda Effect Revisited (дискусія), <em>California Management Review</em></td><td>1996</td></tr>
+        <tr><td class="k">Michael Porter</td><td>What Is Strategy?, <em>Harvard Business Review</em></td><td>1996</td></tr>
+        <tr><td class="k">Mintzberg, Ahlstrand, Lampel</td><td>Strategy Safari: A Guided Tour Through the Wilds of Strategic Management</td><td>1998</td></tr>
+        <tr><td class="k">Saras Sarasvathy</td><td>Causation and Effectuation, <em>Academy of Management Review</em></td><td>2001</td></tr>
+        <tr><td class="k">Ivan Arreguín-Toft</td><td>How the Weak Win Wars: A Theory of Asymmetric Conflict</td><td>2001 · 2005</td></tr>
+        <tr><td class="k">Richard Rumelt</td><td>Good Strategy / Bad Strategy: The Difference and Why It Matters</td><td>2011</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  Добірка оглядова: кожна зі шкіл має власну літературу, тут наведено лише вихідні тексти, за якими тезу можна перевірити. Блоки «Мій коментар» — авторське тлумачення під реальність бізнес-об'єднання, а не переказ джерела; у самих працях цих висновків немає. Датування Сунь-цзи умовне й у науковій літературі дискутується.
+</footer>
+
+</div>
+</body>
+</html>
